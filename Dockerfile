@@ -31,13 +31,12 @@ COPY rootfs/ /
 SHELL ["/bin/bash", "-c"]
 
 RUN	apt-get update && \
-	apt-get install -y tigervnc-standalone-server tigervnc-xorg-extension tigervnc-viewer net-tools tzdata ca-certificates supervisor curl wget python3 python3-pip sed unzip xvfb x11vnc websockify openbox libnss3 libgbm-dev libasound2 && \
+	apt-get install -y websockify tigervnc-standalone-server tigervnc-xorg-extension tigervnc-viewer net-tools tzdata ca-certificates supervisor curl wget python3 python3-pip sed unzip openbox libnss3 libgbm-dev libasound2 && \
 #Chromium
 	wget https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/938008/chrome-linux.zip -P /tmp && \
 	unzip /tmp/chrome-linux.zip -d /opt && \
 #noVNC
 	mkdir /root/.vnc && echo $VNC_PASS | vncpasswd -f > /root/.vnc/passwd && chmod 0600 /root/.vnc/passwd && \
-	openssl req -new -newkey rsa:4096 -days 36500 -nodes -x509 -subj "/C=IN/ST=Maharastra/L=Private/O=Dis/CN=www.google.com" -keyout /etc/ssl/novnc.key  -out /etc/ssl/novnc.cert && \
 #TimeZone
 	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
